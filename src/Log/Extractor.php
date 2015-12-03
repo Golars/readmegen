@@ -111,6 +111,6 @@ class Extractor {
      * @return string
      */
     protected function getPattern($keywords) {
-        return '/^('.$keywords.'):/i';
+        return '/^('.preg_quote($keywords).')/i';
     }
 }
