@@ -16,11 +16,11 @@ class DecoratorSpec extends ObjectBehavior
 
     function it_should_set_the_correct_output_class(FormatInterface $formatter)
     {
-        $formatter->setLog(array())->shouldBeCalled();
+        $formatter->setLog([])->shouldBeCalled();
         $formatter->setIssueTrackerUrlPattern('')->shouldBeCalled();
         $formatter->decorate()->willReturn('foo');
 
-        $this->setLog(array());
+        $this->setLog([]);
         $this->setIssueTrackerUrlPattern('');
         $this->decorate()->shouldReturn('foo');
     }

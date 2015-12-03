@@ -6,9 +6,9 @@ use ReadmeGen\Output\Format\FormatInterface;
 
 class WriterSpec extends ObjectBehavior
 {
-    protected $fileName = 'foobar.md';
+    protected $fileName               = 'foobar.md';
     protected $fileNameWithBreakpoint = 'foobar_break.md';
-    protected $break = '- Changelog';
+    protected $break                  = '- Changelog';
 
     function let(FormatInterface $formatter)
     {
@@ -24,11 +24,11 @@ class WriterSpec extends ObjectBehavior
 
     function it_should_write_log_output_to_a_file(FormatInterface $formatter)
     {
-        $logContent = array(
+        $logContent = [
             'Features:',
             '- foo',
             '- bar',
-        );
+        ];
 
         $formatter->generate()->willReturn($logContent);
         $formatter->getFileName()->willReturn($this->fileName);
@@ -52,13 +52,13 @@ class WriterSpec extends ObjectBehavior
 
     function it_should_add_content_after_breakpoint(FormatInterface $formatter)
     {
-        $logContent = array(
+        $logContent = [
             'Features:',
             '- foo',
             '- bar',
-        );
+        ];
 
-        $resultContent = array(
+        $resultContent = [
             'line one',
             $this->break,
             'Features:',
@@ -66,9 +66,9 @@ class WriterSpec extends ObjectBehavior
             '- bar',
             '',
             'line two',
-            '##'.$this->break,
+            '##' . $this->break,
             'line three',
-        );
+        ];
 
         $formatter->generate()->willReturn($logContent);
         $formatter->getFileName()->willReturn($this->fileNameWithBreakpoint);

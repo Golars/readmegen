@@ -4,7 +4,6 @@ use ReadmeGen\Output\Format\FormatInterface;
 
 /**
  * Output decorator.
- *
  * Class Decorator
  * @package ReadmeGen\Log
  */
@@ -12,7 +11,6 @@ class Decorator
 {
     /**
      * Formatter instance.
-     *
      * @var FormatInterface
      */
     protected $formatter;
@@ -26,6 +24,7 @@ class Decorator
      * Log setter.
      *
      * @param array $log
+     *
      * @return $this
      */
     public function setLog(array $log)
@@ -39,6 +38,7 @@ class Decorator
      * Issue tracker pattern setter.
      *
      * @param string $pattern
+     *
      * @return $this
      */
     public function setIssueTrackerUrlPattern($pattern)
@@ -50,7 +50,6 @@ class Decorator
 
     /**
      * Returns the decorated log.
-     *
      * @return FormatInterface
      */
     public function decorate()

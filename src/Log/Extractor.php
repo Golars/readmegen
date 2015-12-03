@@ -2,43 +2,40 @@
 
 /**
  * Log extractor.
- *
  * Filters the parsed log and returns grouped messages.
  */
-class Extractor {
+class Extractor
+{
 
     /**
      * The log.
-     *
      * @var array
      */
-    protected $log = array();
+    protected $log = [];
 
     /**
      * Message groups.
-     *
      * @var array
      */
-    protected $messageGroups = array();
+    protected $messageGroups = [];
 
     /**
      * Message groups as a string.
-     *
      * @var string
      */
     protected $messageGroupsJoined;
 
     /**
      * Grouped messages.
-     *
      * @var array
      */
-    protected $groups = array();
+    protected $groups = [];
 
     /**
      * Log setter.
      *
      * @param array $log
+     *
      * @return $this
      */
     public function setLog(array $log)
@@ -52,6 +49,7 @@ class Extractor {
      * Message groups setter.
      *
      * @param array $messageGroups
+     *
      * @return $this
      */
     public function setMessageGroups(array $messageGroups)
@@ -68,10 +66,10 @@ class Extractor {
 
     /**
      * Groups messages and returns them.
-     *
      * @return array
      */
-    public function extract() {
+    public function extract()
+    {
         foreach ($this->log as $line) {
             foreach ($this->messageGroupsJoined as $header => $keywords) {
                 $pattern = $this->getPattern($keywords);
@@ -94,23 +92,26 @@ class Extractor {
     }
 
     /**
+     * Returns the regexp pattern used to determine the log entry's group.
+     *
+     * @param string $keywords
+     *
+     * @return string
+     */
+    protected function getPattern($keywords)
+    {
+        return '/^(' . preg_quote($keywords) . ')/i';
+    }
+
+    /**
      * Appends a message to a group
      *
      * @param string $groupHeader
      * @param string $text
      * @param string $pattern
      */
-    protected function appendToGroup($groupHeader, $text, $pattern) {
+    protected function appendToGroup($groupHeader, $text, $pattern)
+    {
         $this->groups[$groupHeader][] = trim(preg_replace($pattern, '', $text));
-    }
-
-    /**
-     * Returns the regexp pattern used to determine the log entry's group.
-     *
-     * @param string $keywords
-     * @return string
-     */
-    protected function getPattern($keywords) {
-        return '/^('.preg_quote($keywords).')/i';
     }
 }

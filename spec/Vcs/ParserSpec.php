@@ -11,16 +11,16 @@ class ParserSpec extends ObjectBehavior
     {
         $this->beConstructedWith($vcs);
     }
-    
+
     function it_should_parse_the_vcs_log_into_an_array(TypeInterface $vcs)
     {
-        $returnData = array(
+        $returnData = [
             'foo bar',
             'baz',
-        );
-        
+        ];
+
         $vcs->parse()->willReturn($returnData);
-        
+
         $this->parse()->shouldBe($returnData);
     }
 }

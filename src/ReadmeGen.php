@@ -1,10 +1,10 @@
 <?php namespace ReadmeGen;
 
 use ReadmeGen\Config\Loader as ConfigLoader;
-use ReadmeGen\Vcs\Parser;
-use ReadmeGen\Log\Extractor;
 use ReadmeGen\Log\Decorator;
+use ReadmeGen\Log\Extractor;
 use ReadmeGen\Output\Writer as OutputWriter;
+use ReadmeGen\Vcs\Parser;
 
 class ReadmeGen
 {
@@ -16,42 +16,36 @@ class ReadmeGen
 
     /**
      * Config loader.
-     *
      * @var ConfigLoader
      */
     protected $configLoader;
 
     /**
      * Default config.
-     *
      * @var array
      */
-    protected $defaultConfig = array();
+    protected $defaultConfig = [];
 
     /**
      * Final config - default config merged with local config.
-     *
      * @var array
      */
-    protected $config = array();
+    protected $config = [];
 
     /**
      * Parser instance.
-     *
      * @var Parser
      */
     protected $parser;
 
     /**
      * Message extractor.
-     *
      * @var Extractor
      */
     protected $extractor;
 
     /**
      * Message decorator.
-     *
      * @var \ReadmeGen\Log\Decorator
      */
     protected $decorator;
@@ -62,12 +56,12 @@ class ReadmeGen
     {
 
         // Root config path
-        $rootConfigPath = realpath(__DIR__.'/../'.$this->defaultConfigPath);
+        $rootConfigPath = realpath(__DIR__ . '/../' . $this->defaultConfigPath);
 
         // Overriding the root config
         $configPath = (false === empty($defaultConfigPath) ? $defaultConfigPath : $rootConfigPath);
 
-        $this->configLoader = $configLoader;
+        $this->configLoader  = $configLoader;
         $this->defaultConfig = $this->configLoader->get($configPath);
 
         $localConfigPath = realpath($this->defaultConfigPath);
@@ -75,15 +69,13 @@ class ReadmeGen
         // Merging local config
         if (file_exists($localConfigPath) && false === $ignoreLocalConfig) {
             $this->config = $this->configLoader->get($localConfigPath, $this->defaultConfig);
-        }
-        else {
+        } else {
             $this->config = $this->defaultConfig;
         }
     }
 
     /**
      * Returns the config.
-     *
      * @return array
      */
     public function getConfig()
@@ -93,7 +85,6 @@ class ReadmeGen
 
     /**
      * Returns the parser.
-     *
      * @return Parser
      * @throws \InvalidArgumentException When the VCS parser class does not exist.
      */
@@ -123,25 +114,26 @@ class ReadmeGen
      * Returns messages extracted from the log.
      *
      * @param array $log
+     *
      * @return array
      */
     public function extractMessages(array $log = null)
     {
         if (true === empty($log)) {
-            return array();
+            return [];
         }
 
         $this->extractor->setMessageGroups($this->config['message_groups']);
 
         return $this->extractor->setLog($log)
-            ->extract();
+                               ->extract();
     }
 
     /**
-     *
      * phpspec failed to properly resolve the aliased version of this interface.
      *
      * @param \ReadmeGen\Log\Decorator $decorator
+     *
      * @return $this
      */
     public function setDecorator(Decorator $decorator)
@@ -155,17 +147,18 @@ class ReadmeGen
      * Returns decorated log messages.
      *
      * @param array $log
+     *
      * @return array|Output\Format\FormatInterface
      */
     public function getDecoratedMessages(array $log = null)
     {
         if (true === empty($log)) {
-            return array();
+            return [];
         }
 
         return $this->decorator->setLog($log)
-            ->setIssueTrackerUrlPattern($this->config['issue_tracker_pattern'])
-            ->decorate();
+                               ->setIssueTrackerUrlPattern($this->config['issue_tracker_pattern'])
+                               ->decorate();
     }
 
     public function setOutputWriter(OutputWriter $output)
@@ -177,7 +170,6 @@ class ReadmeGen
 
     /**
      * Writes the ready output to the file.
-     *
      * @return mixed
      */
     public function writeOutput()
