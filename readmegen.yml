@@ -5,12 +5,10 @@ break: "## Changelog"
 output_file_name: "README.md"
 message_groups:
   Features:
-    - feature
-    - feat
+    - "[+]"
   Bugfixes:
-    - fix
-    - bugfix
-  Documentation:
-    - docs
+    - "[!]"
+  Deleted:
+    - "[-]"
   Refactoring:
-    - refactoring
+    - "[*]"
