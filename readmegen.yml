@@ -8,6 +8,8 @@ message_groups:
     - "[+]"
   Bugfixes:
     - "[!]"
+  Hotfixes:
+    - "[!!]"
   Deleted:
     - "[-]"
   Refactoring:
