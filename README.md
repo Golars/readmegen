@@ -124,6 +124,55 @@ feat: Some more cool stuff
 ```
 
 ## Changelog
+## 1.1.7
+*(2016-10-02)*
+
+#### Features
+* Allow to use symfony/yaml: ^3.0
+
+---
+
+## 1.1.6
+*(2015-12-11)*
+
+#### Features
+* Added support for hotfixes [!!] format
+
+---
+
+## 1.1.5
+*(2015-12-03)*
+
+#### Refactoring
+* Codeformat, require php5.5, omit blank line
+
+---
+
+## 1.1.4
+*(2015-12-03)*
+
+#### Features
+* Added author,
+
+#### Refactoring
+* Renamed project in composer.json
+
+---
+
+## 1.1.3
+*(2015-12-03)*
+
+#### Deleted
+* : as delimiter
+
+#### Features
+* preg_quote for message_groups
+
+#### Refactoring
+* Modify message_groups for current projects
+
+---
+
 ## 1.1.2
 *(2015-07-12)*
 
