@@ -3,35 +3,37 @@
 namespace spec\ReadmeGen {
 
     use PhpSpec\ObjectBehavior;
-    use \ReadmeGen\Config\Loader as ConfigLoader;
-    use \ReadmeGen\Shell;
-    use \ReadmeGen\Vcs\Type\Git;
-    use \ReadmeGen\Log\Extractor;
-    use \ReadmeGen\Log\Decorator;
-    use \ReadmeGen\Output\Format\Md;
-    use \ReadmeGen\Output\Writer;
+    use ReadmeGen\Config\Loader as ConfigLoader;
+    use ReadmeGen\Log\Decorator;
+    use ReadmeGen\Log\Extractor;
+    use ReadmeGen\Output\Format\Md;
+    use ReadmeGen\Output\Writer;
+    use ReadmeGen\Shell;
+    use ReadmeGen\Vcs\Type\Git;
 
     class ReadmeGenSpec extends ObjectBehavior
     {
-        protected $dummyConfigFile = 'dummy_config.yaml';
-        protected $dummyConfig = "vcs: dummyvcs\nfoo: bar\nmessage_groups:\n  Features:\n    - feat\n    - feature\n  Bugfixes:\n    - fix\n    - bugfix";
-        protected $dummyConfigArray = array(
-            'vcs' => 'dummyvcs',
-            'foo' => 'bar',
-            'message_groups' => array(
-                'Features' => array(
-                    'feat', 'feature'
-                ),
-                'Bugfixes' => array(
-                    'fix', 'bugfix'
-                ),
-            ),
-        );
-        protected $badConfigFile = 'bad_config.yaml';
-        protected $badConfig = "vcs: nope\nfoo: bar";
-        protected $gitConfigFile = 'git_config.yaml';
-        protected $gitConfig = "vcs: git\nmessage_groups:\n  Features:\n    - feat\n    - feature\n  Bugfixes:\n    - fix\n    - bugfix\nformat: md\nissue_tracker_pattern: http://issue.tracker.com/\\1";
-        protected $outputFile = 'dummy.md';
+        protected $dummyConfigFile  = 'dummy_config.yaml';
+        protected $dummyConfig      = "vcs: dummyvcs\nfoo: bar\nmessage_groups:\n  Features:\n    - feat\n    - feature\n  Bugfixes:\n    - fix\n    - bugfix";
+        protected $dummyConfigArray = [
+            'vcs'            => 'dummyvcs',
+            'foo'            => 'bar',
+            'message_groups' => [
+                'Features' => [
+                    'feat',
+                    'feature',
+                ],
+                'Bugfixes' => [
+                    'fix',
+                    'bugfix',
+                ],
+            ],
+        ];
+        protected $badConfigFile    = 'bad_config.yaml';
+        protected $badConfig        = "vcs: nope\nfoo: bar";
+        protected $gitConfigFile    = 'git_config.yaml';
+        protected $gitConfig        = "vcs: git\nmessage_groups:\n  Features:\n    - feat\n    - feature\n  Bugfixes:\n    - fix\n    - bugfix\nformat: md\nissue_tracker_pattern: http://issue.tracker.com/\\1";
+        protected $outputFile       = 'dummy.md';
 
         function let()
         {
@@ -74,47 +76,48 @@ namespace spec\ReadmeGen {
         {
             file_put_contents($this->gitConfigFile, $this->gitConfig);
 
-            $shell->run(sprintf('git log --pretty=format:"%%s%s%%b" 1.2.3..4.0.0', Git::MSG_SEPARATOR))->willReturn($this->getLogAsString());
+            $shell->run(sprintf('git log --pretty=format:"%%s%s%%b" 1.2.3..4.0.0', Git::MSG_SEPARATOR))
+                  ->willReturn($this->getLogAsString());
 
             $this->beConstructedWith(new ConfigLoader, $this->gitConfigFile, true);
 
             $this->getParser()->getVcsParser()->shouldHaveType('\ReadmeGen\Vcs\Type\Git');
-            $this->getParser()->setArguments(array(
+            $this->getParser()->setArguments([
                 'from' => '1.2.3',
-                'to' => '4.0.0',
-            ));
+                'to'   => '4.0.0',
+            ]);
             $this->getParser()->setShellRunner($shell);
 
             $log = $this->getParser()->parse();
 
             $this->setExtractor(new Extractor());
-            $logGrouped = $this->extractMessages($log)->shouldReturn(array(
-                'Features' => array(
+            $logGrouped = $this->extractMessages($log)->shouldReturn([
+                'Features' => [
                     'bar baz #123',
                     'dummy feature',
                     'lol',
-                ),
-                'Bugfixes' => array(
+                ],
+                'Bugfixes' => [
                     'some bugfix',
-                )
-            ));
+                ],
+            ]);
 
             $formatter = new Md();
             $formatter->setFileName($this->outputFile)
-                ->setRelease('4.5.6')
-                ->setDate(new \DateTime(2014-12-12));
+                      ->setRelease('4.5.6')
+                      ->setDate(new \DateTime(2014 - 12 - 12));
 
             $this->setDecorator(new Decorator($formatter));
-            $this->getDecoratedMessages($logGrouped)->shouldReturn(array(
-                'Features' => array(
+            $this->getDecoratedMessages($logGrouped)->shouldReturn([
+                'Features' => [
                     'bar baz [#123](http://issue.tracker.com/123)',
                     'dummy feature',
                     'lol',
-                ),
-                'Bugfixes' => array(
+                ],
+                'Bugfixes' => [
                     'some bugfix',
-                )
-            ));
+                ],
+            ]);
 
             $outputWriter = new Writer($formatter);
 
@@ -124,7 +127,7 @@ namespace spec\ReadmeGen {
 
         protected function getLogAsString()
         {
-            $log = array(
+            $log = [
                 'foo',
                 'feature: bar baz #123',
                 'nope',
@@ -132,13 +135,12 @@ namespace spec\ReadmeGen {
                 'feat: lol',
                 'also nope',
                 'fix: some bugfix',
-            );
+            ];
 
-            return join(Git::MSG_SEPARATOR."\n", $log).Git::MSG_SEPARATOR."\n";
+            return join(Git::MSG_SEPARATOR . "\n", $log) . Git::MSG_SEPARATOR . "\n";
         }
 
     }
-
 }
 
 /**
@@ -151,13 +153,12 @@ namespace ReadmeGen\Vcs\Type {
 
         public function parse()
         {
-            return array();
+            return [];
         }
 
-        public function getToDate(){
-            
+        public function getToDate()
+        {
         }
 
     }
-
 }

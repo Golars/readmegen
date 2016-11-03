@@ -8,7 +8,7 @@ class LoaderSpec extends ObjectBehavior
 {
 
     protected $dummyConfigFile = 'dummy_config.yaml';
-    protected $badConfigFile = 'dummy_config_bad.yaml';
+    protected $badConfigFile   = 'dummy_config_bad.yaml';
 
     function let()
     {
@@ -24,12 +24,12 @@ class LoaderSpec extends ObjectBehavior
 
     function it_should_throw_exception_when_default_config_doesnt_exist()
     {
-        $this->shouldThrow('\InvalidArgumentException')->during('get', array('foobar.yml'));
+        $this->shouldThrow('\InvalidArgumentException')->during('get', ['foobar.yml']);
     }
 
     function it_should_throw_exception_when_the_config_file_is_malformed()
     {
-        $this->shouldThrow('\Symfony\Component\Yaml\Exception\ParseException')->during('get', array($this->badConfigFile));
+        $this->shouldThrow('\Symfony\Component\Yaml\Exception\ParseException')->during('get', [$this->badConfigFile]);
     }
 
     function it_loads_the_default_config()
@@ -44,11 +44,11 @@ class LoaderSpec extends ObjectBehavior
 
     function getMatchers()
     {
-        return array(
-            'haveKey' => function($subject, $key) {
+        return [
+            'haveKey' => function ($subject, $key) {
                 return array_key_exists($key, $subject);
             },
-        );
+        ];
     }
 
 }

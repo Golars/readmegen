@@ -5,7 +5,6 @@ use Ulrichsg\Getopt\Option;
 
 /**
  * Input parser.
- *
  * Class Parser
  * @package ReadmeGen\Input
  */
@@ -13,27 +12,25 @@ class Parser
 {
     /**
      * CLI input parser.
-     *
      * @var Getopt
      */
     protected $handler;
 
     /**
      * Entered command.
-     *
      * @var string
      */
     protected $input;
-    
+
     public function __construct()
     {
         // Register possible input arguments.
-        $this->handler = new Getopt(array(
+        $this->handler = new Getopt([
             new Option('r', 'release', Getopt::REQUIRED_ARGUMENT),
             new Option('f', 'from', Getopt::REQUIRED_ARGUMENT),
             new Option('t', 'to', Getopt::OPTIONAL_ARGUMENT),
             new Option('b', 'break', Getopt::OPTIONAL_ARGUMENT),
-        ));
+        ]);
     }
 
     /**
@@ -44,15 +41,14 @@ class Parser
     public function setInput($input)
     {
         $inputArray = explode(' ', $input);
-        
+
         array_shift($inputArray);
-        
+
         $this->input = join(' ', $inputArray);
     }
 
     /**
      * Parses the input and returns the Getopt handler.
-     *
      * @return Getopt
      */
     public function parse()
@@ -68,7 +64,7 @@ class Parser
         if (false === isset($output['release'])) {
             throw new \BadMethodCallException('The --release argument is required.');
         }
-        
+
         return $this->handler;
     }
 }

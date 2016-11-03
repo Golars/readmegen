@@ -1,9 +1,9 @@
 <?php namespace ReadmeGen;
 
-use ReadmeGen\Input\Parser;
 use ReadmeGen\Config\Loader as ConfigLoader;
-use ReadmeGen\Log\Extractor;
+use ReadmeGen\Input\Parser;
 use ReadmeGen\Log\Decorator;
+use ReadmeGen\Log\Extractor;
 use ReadmeGen\Output\Writer;
 
 class Bootstrap
@@ -40,7 +40,7 @@ class Bootstrap
 
         // Extract useful log entries
         $logGrouped = $this->generator->setExtractor(new Extractor())
-            ->extractMessages($this->getLog());
+                                      ->extractMessages($this->getLog());
 
         $config = $this->generator->getConfig();
 
@@ -56,7 +56,7 @@ class Bootstrap
 
         // Pass decorated log entries to the generator
         $this->generator->setDecorator(new Decorator($formatter))
-            ->getDecoratedMessages($logGrouped);
+                        ->getDecoratedMessages($logGrouped);
 
         $writer = new Writer($formatter);
 
@@ -69,29 +69,27 @@ class Bootstrap
 
         // Write the output
         $this->generator->setOutputWriter($writer)
-            ->writeOutput();
+                        ->writeOutput();
     }
 
     /**
      * Returns the parsed log.
-     *
      * @return mixed
      */
     public function getLog()
     {
         return $this->generator->getParser()
-            ->parse();
+                               ->parse();
     }
 
     /**
      * Returns the date of the latter commit (--to).
-     *
      * @return string
      */
     protected function getToDate()
     {
         $date = $this->generator->getParser()
-            ->getToDate();
+                                ->getToDate();
 
         return new \DateTime($date);
     }
@@ -104,8 +102,8 @@ class Bootstrap
     protected function setupParser(array $options)
     {
         $this->generator->getParser()
-            ->setArguments($options)
-            ->setShellRunner(new Shell);
+                        ->setArguments($options)
+                        ->setShellRunner(new Shell);
     }
 
     /**
@@ -113,9 +111,11 @@ class Bootstrap
      *
      * @param array $options
      * @param array $config
+     *
      * @return null|string
      */
-    protected function getBreak(array $options, array $config){
+    protected function getBreak(array $options, array $config)
+    {
         if (true === isset($options['break'])) {
             return $options['break'];
         }

@@ -6,35 +6,30 @@ class Md implements FormatInterface
 {
     /**
      * VCS log.
-     *
      * @var array
      */
     protected $log;
 
     /**
      * Issue tracker link pattern.
-     *
      * @var string
      */
     protected $pattern;
 
     /**
      * Output filename.
-     *
      * @var string
      */
     protected $fileName = 'README.md';
 
     /**
      * Release number (included in the output).
-     *
      * @var string
      */
     protected $release;
 
     /**
      * Date (included in the output).
-     *
      * @var \DateTime
      */
     protected $date;
@@ -43,6 +38,7 @@ class Md implements FormatInterface
      * Log setter.
      *
      * @param array $log
+     *
      * @return mixed
      */
     public function setLog(array $log = null)
@@ -56,6 +52,7 @@ class Md implements FormatInterface
      * Issue tracker patter setter.
      *
      * @param $pattern
+     *
      * @return mixed
      */
     public function setIssueTrackerUrlPattern($pattern)
@@ -67,40 +64,28 @@ class Md implements FormatInterface
 
     /**
      * Decorates the output (e.g. adds linkgs to the issue tracker)
-     *
      * @return self
      */
     public function decorate()
     {
         foreach ($this->log as &$entries) {
-            array_walk($entries, array($this, 'injectLinks'));
+            array_walk($entries, [$this, 'injectLinks']);
         }
 
         return $this->log;
     }
 
     /**
-     * Injects issue tracker links into the log.
-     *
-     * @param string $entry Log entry.
-     */
-    protected function injectLinks(&$entry)
-    {
-        $entry = preg_replace('/#(\d+)/', "[#\\1]({$this->pattern})", $entry);
-    }
-
-    /**
      * Returns a write-ready log.
-     *
      * @return array
      */
     public function generate()
     {
         if (true === empty($this->log)) {
-            return array();
+            return [];
         }
 
-        $log = array();
+        $log = [];
 
         // Iterate over grouped entries
         foreach ($this->log as $header => &$entries) {
@@ -122,12 +107,11 @@ class Md implements FormatInterface
         }
 
         // Return a write-ready log
-        return array_merge(array("## {$this->release}", "*({$this->date->format('Y-m-d')})*"), $log, array("\n---\n"));
+        return array_merge(["## {$this->release}", "*({$this->date->format('Y-m-d')})*"], $log, ["\n---\n"]);
     }
 
     /**
      * Returns the output filename.
-     *
      * @return string
      */
     public function getFileName()
@@ -139,6 +123,7 @@ class Md implements FormatInterface
      * Output filename setter.
      *
      * @param $fileName
+     *
      * @return mixed
      */
     public function setFileName($fileName)
@@ -152,9 +137,11 @@ class Md implements FormatInterface
      * Release number setter.
      *
      * @param $release
+     *
      * @return mixed
      */
-    public function setRelease($release) {
+    public function setRelease($release)
+    {
         $this->release = $release;
 
         return $this;
@@ -164,12 +151,24 @@ class Md implements FormatInterface
      * Creation date setter.
      *
      * @param \DateTime $date
+     *
      * @return mixed
      */
-    public function setDate(\DateTime $date) {
+    public function setDate(\DateTime $date)
+    {
         $this->date = $date;
 
         return $this;
+    }
+
+    /**
+     * Injects issue tracker links into the log.
+     *
+     * @param string $entry Log entry.
+     */
+    protected function injectLinks(&$entry)
+    {
+        $entry = preg_replace('/#(\d+)/', "[#\\1]({$this->pattern})", $entry);
     }
 
 }

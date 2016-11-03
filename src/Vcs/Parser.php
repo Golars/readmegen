@@ -1,18 +1,16 @@
 <?php namespace ReadmeGen\Vcs;
 
-use ReadmeGen\Vcs\Type\TypeInterface;
 use ReadmeGen\Shell;
+use ReadmeGen\Vcs\Type\TypeInterface;
 
 /**
  * VCS log parser.
- * 
  * Used to return the VCS log as an array.
  */
 class Parser
 {
     /**
      * VCS-specific parser.
-     * 
      * @var TypeInterface
      */
     protected $vcs;
@@ -24,7 +22,6 @@ class Parser
 
     /**
      * Returns the parsed log.
-     * 
      * @return array
      */
     public function parse()
@@ -34,7 +31,6 @@ class Parser
 
     /**
      * Returns the VCS parser.
-     * 
      * @return TypeInterface
      */
     public function getVcsParser()
@@ -46,6 +42,7 @@ class Parser
      * Shell runner setter.
      *
      * @param Shell $shell
+     *
      * @return $this
      */
     public function setShellRunner(Shell $shell)
@@ -59,6 +56,7 @@ class Parser
      * Sets input options.
      *
      * @param array $options
+     *
      * @return $this
      */
     public function setOptions(array $options = null)
@@ -72,6 +70,7 @@ class Parser
      * Sets input arguments.
      *
      * @param array $arguments
+     *
      * @return $this
      */
     public function setArguments(array $arguments = null)
@@ -83,10 +82,10 @@ class Parser
 
     /**
      * Returns the date of the latter (--to) commit, in the format YYYY-MM-DD.
-     *
      * @return string
      */
-    public function getToDate(){
+    public function getToDate()
+    {
         return $this->vcs->getToDate();
     }
 }

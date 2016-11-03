@@ -5,31 +5,28 @@ use ReadmeGen\Shell;
 abstract class AbstractType implements TypeInterface
 {
     const MSG_SEPARATOR = '{{MSG_SEPARATOR}}';
-    
+
     /**
      * Shell script runner.
-     *
      * @var Shell
      */
     protected $shell;
 
     /**
      * Input arguments.
-     *
      * @var array
      */
-    protected $arguments = array();
+    protected $arguments = [];
 
     /**
      * Input arguments.
-     *
      * @var array
      */
-    protected $options = array();
+    protected $options = [];
 
     /**
      * Shell command executing class setter.
-     * 
+     *
      * @param Shell $shell
      */
     public function setShellRunner(Shell $shell)
@@ -41,6 +38,7 @@ abstract class AbstractType implements TypeInterface
      * Runs the shell command and returns the result.
      *
      * @param $command
+     *
      * @return string
      */
     protected function runCommand($command)
@@ -52,6 +50,7 @@ abstract class AbstractType implements TypeInterface
      * Input option setter.
      *
      * @param array $options
+     *
      * @return mixed
      */
     public function setOptions(array $options = null)
@@ -63,6 +62,7 @@ abstract class AbstractType implements TypeInterface
      * Input argument setter.
      *
      * @param array $arguments
+     *
      * @return mixed
      */
     public function setArguments(array $arguments = null)
@@ -74,6 +74,7 @@ abstract class AbstractType implements TypeInterface
      * Returns true if an option exists.
      *
      * @param $option
+     *
      * @return mixed
      */
     public function hasOption($option)
@@ -83,7 +84,6 @@ abstract class AbstractType implements TypeInterface
 
     /**
      * Returns all options.
-     *
      * @return mixed
      */
     public function getOptions()
@@ -95,6 +95,7 @@ abstract class AbstractType implements TypeInterface
      * Returns true if an argument exists.
      *
      * @param $argument
+     *
      * @return mixed
      */
     public function hasArgument($argument)
@@ -106,6 +107,7 @@ abstract class AbstractType implements TypeInterface
      * Returns the argument's value.
      *
      * @param $argument
+     *
      * @return mixed
      */
     public function getArgument($argument)
@@ -115,12 +117,11 @@ abstract class AbstractType implements TypeInterface
 
     /**
      * Return all arguments.
-     *
      * @return mixed
      */
     public function getArguments()
     {
         return $this->arguments;
     }
-    
+
 }

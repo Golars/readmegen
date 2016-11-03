@@ -10,7 +10,7 @@ class ExtractorSpec extends ObjectBehavior
 
     function it_extracts_messages_from_log()
     {
-        $log = array(
+        $log = [
             'foo',
             'feature: bar baz',
             'nope',
@@ -18,24 +18,24 @@ class ExtractorSpec extends ObjectBehavior
             'feat: lol',
             'also nope',
             'fix: some bugfix',
-        );
+        ];
 
-        $messageGroups = array(
-            'Features' => array('feature', 'feat'),
-            'Bugfixes' => array('bugfix', 'fix'),
-            'Docs' => array('docs'),
-        );
+        $messageGroups = [
+            'Features' => ['feature', 'feat'],
+            'Bugfixes' => ['bugfix', 'fix'],
+            'Docs'     => ['docs'],
+        ];
 
-        $result = array(
-            'Features' => array(
+        $result = [
+            'Features' => [
                 'bar baz',
                 'dummy feature',
                 'lol',
-            ),
-            'Bugfixes' => array(
+            ],
+            'Bugfixes' => [
                 'some bugfix',
-            ),
-        );
+            ],
+        ];
 
         $this->setLog($log);
         $this->setMessageGroups($messageGroups);

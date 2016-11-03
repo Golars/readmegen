@@ -1,10 +1,10 @@
-<?php namespace ReadmeGen\Output;
+<?php
+namespace ReadmeGen\Output;
 
 use ReadmeGen\Output\Format\FormatInterface;
 
 /**
  * Output writer.
- *
  * Class Writer
  * @package ReadmeGen\Output
  */
@@ -12,14 +12,11 @@ class Writer
 {
     /**
      * Format specific writer.
-     *
      * @var FormatInterface
      */
     protected $formatter;
-
     /**
      * Output breakpoint.
-     *
      * @var string
      */
     protected $break;
@@ -31,51 +28,65 @@ class Writer
 
     /**
      * Writes the output to a file.
-     *
-     * @return bool
+     * @return boolean
      */
     public function write()
     {
-        // Crete the file if it does not exist
-        $this->makeFile($this->formatter->getFileName());
-
-        // Contents of the original file
-        $fileContent = file_get_contents($this->formatter->getFileName());
-
-        // Final log
-        $log = join("\n", (array) $this->formatter->generate())."\n";
-
-        // Include the breakpoint
-        if (false === empty($this->break) && 1 === preg_match("/^{$this->break}/m", $fileContent)) {
-            $splitFileContent = preg_split("/^{$this->break}/m", $fileContent);
-
-            file_put_contents($this->formatter->getFileName(), $splitFileContent[0].$this->break."\n".$log.$splitFileContent[1]);
-
-            return true;
+        $result   = false;
+        $messages = $this->formatter->generate();
+        if (count($messages)) {
+            $log    = implode("\n", $messages)
+                      . "\n";
+            $result = $this->appendLog($log, $this->formatter->getFileName());
         }
 
-        file_put_contents($this->formatter->getFileName(), $log.$fileContent);
-
-        return true;
+        return $result;
     }
 
     /**
-     * Create the file if it does not exist.
-     *
+     * @param string $log
      * @param string $fileName
+     *
+     * @return boolean
      */
-    protected function makeFile($fileName){
-        if (file_exists($fileName)) {
-            return;
+    public function appendLog($log, $fileName)
+    {
+        $originalContent = $this->getFileContent($fileName);
+        if (!is_null($this->break)) {
+            $log              = $this->break . "\n" . $log;
+            $splitFileContent = preg_split("/^{$this->break}/m", $originalContent, 2);
+            if (count($splitFileContent) === 2) {
+                $newContent = implode($log, $splitFileContent);
+            } else {
+                $newContent = $log . $originalContent;
+            }
+        } else {
+            $newContent = $log . $originalContent;
         }
 
-        touch($fileName);
+        return (boolean)file_put_contents($fileName, $newContent);
+    }
+
+    /**
+     * @param string $fileName
+     *
+     * @return string
+     */
+    public function getFileContent($fileName)
+    {
+        $fileContent = '';
+        if (file_exists($fileName)) {
+            $fileContent = file_get_contents($fileName);
+        }
+
+        return $fileContent;
     }
 
     /**
      * Breakpoint setter.
      *
      * @param null|string $break
+     *
      * @return $this
      */
     public function setBreak($break = null)

@@ -4,7 +4,6 @@ class Git extends AbstractType
 {
     /**
      * Parses the log.
-     *
      * @return array
      */
     public function parse()
@@ -12,27 +11,33 @@ class Git extends AbstractType
         return array_filter(array_map('trim', explode(self::MSG_SEPARATOR, $this->getLog())));
     }
 
-    /**
-     * Returns the base VCS log command.
-     *
-     * @return string
-     */
-    protected function getBaseCommand()
+    public function getToDate()
     {
-        return 'git log --pretty=format:"%s{{MSG_SEPARATOR}}%b"';
+        $arguments = $this->getArguments();
+
+        $to = (true === isset($arguments['to'])) ? $arguments['to'] : 'HEAD';
+
+        $fullDate = $this->runCommand(sprintf('git log -1 -s --format=%%ci %s', $to));
+        $date     = explode(' ', $fullDate);
+
+        return $date[0];
+    }
+
+    protected function getLog()
+    {
+        return $this->runCommand($this->getCommand());
     }
 
     /**
      * Returns the compiled VCS log command.
-     *
      * @return string
      */
     public function getCommand()
     {
-        $options = $this->getOptions();
+        $options   = $this->getOptions();
         $arguments = $this->getArguments();
 
-        $to = null;
+        $to   = null;
         $from = $arguments['from'];
 
         if (true === isset($arguments['to'])) {
@@ -50,9 +55,13 @@ class Git extends AbstractType
         return trim(sprintf('%s %s %s', $this->getBaseCommand(), $this->getRange($from, $to), join(' ', $options)));
     }
 
-    protected function getLog()
+    /**
+     * Returns the base VCS log command.
+     * @return string
+     */
+    protected function getBaseCommand()
     {
-        return $this->runCommand($this->getCommand());
+        return 'git log --pretty=format:"%s{{MSG_SEPARATOR}}%b"';
     }
 
     protected function getRange($from, $to = null)
@@ -60,18 +69,5 @@ class Git extends AbstractType
         $range = $from . '..';
 
         return $range . (($to) ?: 'HEAD');
-    }
-
-
-    public function getToDate()
-    {
-        $arguments = $this->getArguments();
-
-        $to = (true === isset($arguments['to'])) ? $arguments['to'] : 'HEAD';
-
-        $fullDate = $this->runCommand(sprintf('git log -1 -s --format=%%ci %s', $to));
-        $date = explode(' ', $fullDate);
-
-        return $date[0];
     }
 }
