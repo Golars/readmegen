@@ -1,5 +1,6 @@
 {
-  "name": "voodoo-mobile/readmegen",
+  "name": "golars/readmegen",
+  "type": "application",
   "description": "Readme file / doc generator. It uses VCS logs as a source of information.",
   "keywords": [
     "readme",
@@ -9,6 +10,10 @@
   ],
   "license": "MIT",
   "authors": [
+    {
+      "name": "Vitaliy",
+      "email": "vipaware@gmail.com"
+    },
     {
       "name": "Kamil Fojuth",
       "email": "fojuth@gmail.com"
@@ -25,12 +30,10 @@
   "require-dev": {
     "phpspec/phpspec": "dev-master"
   },
+  "bin": ["readmegen"],
   "config": {
     "bin-dir": "bin"
   },
-  "bin": [
-    "readmegen"
-  ],
   "autoload": {
     "psr-4": {
       "ReadmeGen\\": "src/"
