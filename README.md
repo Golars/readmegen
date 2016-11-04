@@ -127,7 +127,18 @@ fix #4245, regarding client login bug
 ```
 
 ## Changelog
-## 1.2.0
+## 1.2.2
+*(2016-11-04)*
+
+#### Features
+* up min php version to 5.6
+
+#### Hotfixes
+* travis tests
+
+---
+
+## 1.2.1
 *(2016-11-04)*
 
 #### Bugfixes
