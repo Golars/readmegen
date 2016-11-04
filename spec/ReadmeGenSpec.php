@@ -139,3 +139,23 @@ namespace spec\ReadmeGen {
 
     }
 }
+
+/**
+ * Dummy VCS type class used by ReadmeGen during tests.
+ */
+namespace ReadmeGen\Vcs\Type {
+
+    class Dummyvcs extends \ReadmeGen\Vcs\Type\AbstractType
+    {
+
+        public function parse()
+        {
+            return [];
+        }
+
+        public function getToDate()
+        {
+        }
+
+    }
+}
