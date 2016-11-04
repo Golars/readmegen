@@ -32,7 +32,7 @@ namespace spec\ReadmeGen {
         protected $badConfigFile    = 'bad_config.yaml';
         protected $badConfig        = "vcs: nope\nfoo: bar";
         protected $gitConfigFile    = 'git_config.yaml';
-        protected $gitConfig        = "vcs: git\nmessage_groups:\n  Features:\n    - feat\n    - feature\n  Bugfixes:\n    - fix\n    - bugfix\nformat: md\nissue_tracker_pattern: http://issue.tracker.com/\\1";
+        protected $gitConfig        = "vcs: git\nmessage_groups:\n  Features:\n    - feature\n  Bugfixes:\n    - fix\n    - bugfix\nformat: md\nissue_tracker_pattern: http://issue.tracker.com/\\1";
         protected $outputFile       = 'dummy.md';
 
         function let()
@@ -91,15 +91,13 @@ namespace spec\ReadmeGen {
             $log = $this->getParser()->parse();
 
             $this->setExtractor(new Extractor());
-            $logGrouped = $this->extractMessages($log)->shouldReturn([
-                'Features' => [
-                    'bar baz #123',
-                    'dummy feature',
-                    'lol',
-                ],
-                'Bugfixes' => [
-                    'some bugfix',
-                ],
+            $logGrouped = $this->extractMessages($log);
+            $logGrouped->shouldHaveKeyWithValue('Features', [
+                'bar baz #123',
+                'dummy feature'
+            ]);
+            $logGrouped->shouldHaveKeyWithValue('Bugfixes', [
+                'some bugfix',
             ]);
 
             $formatter = new Md();
@@ -111,8 +109,7 @@ namespace spec\ReadmeGen {
             $this->getDecoratedMessages($logGrouped)->shouldReturn([
                 'Features' => [
                     'bar baz [#123](http://issue.tracker.com/123)',
-                    'dummy feature',
-                    'lol',
+                    'dummy feature'
                 ],
                 'Bugfixes' => [
                     'some bugfix',
@@ -129,12 +126,12 @@ namespace spec\ReadmeGen {
         {
             $log = [
                 'foo',
-                'feature: bar baz #123',
+                'feature bar baz #123',
                 'nope',
-                'feature: dummy feature',
-                'feat: lol',
+                'feature dummy feature',
+                'feat lol',
                 'also nope',
-                'fix: some bugfix',
+                'fix some bugfix',
             ];
 
             return join(Git::MSG_SEPARATOR . "\n", $log) . Git::MSG_SEPARATOR . "\n";

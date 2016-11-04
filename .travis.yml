@@ -12,7 +12,7 @@ before_script:
   - composer install --prefer-source --no-interaction --dev
 
 script:
-  - vendor/phpspec/phpspec/bin/phpspec run -f dot
+  - php vendor/phpspec/phpspec/bin/phpspec run -f dot
 
 matrix:
   allow_failures:

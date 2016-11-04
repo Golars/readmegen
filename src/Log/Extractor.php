@@ -58,10 +58,18 @@ class Extractor
 
         // Set the joined message groups as well
         foreach ($this->messageGroups as $header => $keywords) {
-            $this->messageGroupsJoined[$header] = join('|', $keywords);
+            $this->messageGroupsJoined[$header] = join('|', $this->pregQuoteKeywords($keywords));
         }
 
         return $this;
+    }
+
+    private function pregQuoteKeywords(array $keywords = array()){
+        $prepareKeyWords = [];
+        foreach($keywords as $key => $keyword) {
+            $prepareKeyWords[$key] = preg_quote($keyword);
+        }
+        return $prepareKeyWords;
     }
 
     /**
@@ -100,7 +108,7 @@ class Extractor
      */
     protected function getPattern($keywords)
     {
-        return '/^(' . preg_quote($keywords) . ')/i';
+        return '/^(' . $keywords . ')/i';
     }
 
     /**
