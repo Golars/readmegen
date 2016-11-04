@@ -127,6 +127,18 @@ fix #4245, regarding client login bug
 ```
 
 ## Changelog
+## 1.2.0
+*(2016-11-04)*
+
+#### Bugfixes
+* Multi message groups, test
+
+#### Refactoring
+* php-cs-fixer
+
+---
+
+
 ## 1.1.7
 *(2016-10-02)*
 
