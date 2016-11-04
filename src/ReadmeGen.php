@@ -1,4 +1,6 @@
-<?php namespace ReadmeGen;
+<?php
+
+namespace ReadmeGen;
 
 use ReadmeGen\Config\Loader as ConfigLoader;
 use ReadmeGen\Log\Decorator;
@@ -8,7 +10,6 @@ use ReadmeGen\Vcs\Parser;
 
 class ReadmeGen
 {
-
     /**
      * Path to the default config file.
      */
@@ -16,36 +17,42 @@ class ReadmeGen
 
     /**
      * Config loader.
+     *
      * @var ConfigLoader
      */
     protected $configLoader;
 
     /**
      * Default config.
+     *
      * @var array
      */
     protected $defaultConfig = [];
 
     /**
      * Final config - default config merged with local config.
+     *
      * @var array
      */
     protected $config = [];
 
     /**
      * Parser instance.
+     *
      * @var Parser
      */
     protected $parser;
 
     /**
      * Message extractor.
+     *
      * @var Extractor
      */
     protected $extractor;
 
     /**
      * Message decorator.
+     *
      * @var \ReadmeGen\Log\Decorator
      */
     protected $decorator;
@@ -56,12 +63,12 @@ class ReadmeGen
     {
 
         // Root config path
-        $rootConfigPath = realpath(__DIR__ . '/../' . $this->defaultConfigPath);
+        $rootConfigPath = realpath(__DIR__.'/../'.$this->defaultConfigPath);
 
         // Overriding the root config
         $configPath = (false === empty($defaultConfigPath) ? $defaultConfigPath : $rootConfigPath);
 
-        $this->configLoader  = $configLoader;
+        $this->configLoader = $configLoader;
         $this->defaultConfig = $this->configLoader->get($configPath);
 
         $localConfigPath = realpath($this->defaultConfigPath);
@@ -76,6 +83,7 @@ class ReadmeGen
 
     /**
      * Returns the config.
+     *
      * @return array
      */
     public function getConfig()
@@ -85,8 +93,10 @@ class ReadmeGen
 
     /**
      * Returns the parser.
+     *
      * @return Parser
-     * @throws \InvalidArgumentException When the VCS parser class does not exist.
+     *
+     * @throws \InvalidArgumentException When the VCS parser class does not exist
      */
     public function getParser()
     {
@@ -170,6 +180,7 @@ class ReadmeGen
 
     /**
      * Writes the ready output to the file.
+     *
      * @return mixed
      */
     public function writeOutput()

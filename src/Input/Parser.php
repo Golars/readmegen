@@ -1,23 +1,26 @@
-<?php namespace ReadmeGen\Input;
+<?php
+
+namespace ReadmeGen\Input;
 
 use Ulrichsg\Getopt\Getopt;
 use Ulrichsg\Getopt\Option;
 
 /**
  * Input parser.
- * Class Parser
- * @package ReadmeGen\Input
+ * Class Parser.
  */
 class Parser
 {
     /**
      * CLI input parser.
+     *
      * @var Getopt
      */
     protected $handler;
 
     /**
      * Entered command.
+     *
      * @var string
      */
     protected $input;
@@ -44,11 +47,12 @@ class Parser
 
         array_shift($inputArray);
 
-        $this->input = join(' ', $inputArray);
+        $this->input = implode(' ', $inputArray);
     }
 
     /**
      * Parses the input and returns the Getopt handler.
+     *
      * @return Getopt
      */
     public function parse()

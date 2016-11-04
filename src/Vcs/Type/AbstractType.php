@@ -1,4 +1,6 @@
-<?php namespace ReadmeGen\Vcs\Type;
+<?php
+
+namespace ReadmeGen\Vcs\Type;
 
 use ReadmeGen\Shell;
 
@@ -8,18 +10,21 @@ abstract class AbstractType implements TypeInterface
 
     /**
      * Shell script runner.
+     *
      * @var Shell
      */
     protected $shell;
 
     /**
      * Input arguments.
+     *
      * @var array
      */
     protected $arguments = [];
 
     /**
      * Input arguments.
+     *
      * @var array
      */
     protected $options = [];
@@ -84,6 +89,7 @@ abstract class AbstractType implements TypeInterface
 
     /**
      * Returns all options.
+     *
      * @return mixed
      */
     public function getOptions()
@@ -117,11 +123,11 @@ abstract class AbstractType implements TypeInterface
 
     /**
      * Return all arguments.
+     *
      * @return mixed
      */
     public function getArguments()
     {
         return $this->arguments;
     }
-
 }

@@ -1,4 +1,6 @@
-<?php namespace ReadmeGen\Log;
+<?php
+
+namespace ReadmeGen\Log;
 
 /**
  * Log extractor.
@@ -6,27 +8,30 @@
  */
 class Extractor
 {
-
     /**
      * The log.
+     *
      * @var array
      */
     protected $log = [];
 
     /**
      * Message groups.
+     *
      * @var array
      */
     protected $messageGroups = [];
 
     /**
      * Message groups as a string.
+     *
      * @var string
      */
     protected $messageGroupsJoined;
 
     /**
      * Grouped messages.
+     *
      * @var array
      */
     protected $groups = [];
@@ -58,14 +63,25 @@ class Extractor
 
         // Set the joined message groups as well
         foreach ($this->messageGroups as $header => $keywords) {
-            $this->messageGroupsJoined[$header] = join('|', $keywords);
+            $this->messageGroupsJoined[$header] = implode('|', $this->pregQuoteKeywords($keywords));
         }
 
         return $this;
     }
 
+    private function pregQuoteKeywords(array $keywords = array())
+    {
+        $prepareKeyWords = [];
+        foreach ($keywords as $key => $keyword) {
+            $prepareKeyWords[$key] = preg_quote($keyword);
+        }
+
+        return $prepareKeyWords;
+    }
+
     /**
      * Groups messages and returns them.
+     *
      * @return array
      */
     public function extract()
@@ -100,11 +116,11 @@ class Extractor
      */
     protected function getPattern($keywords)
     {
-        return '/^(' . preg_quote($keywords) . ')/i';
+        return '/^('.$keywords.')/i';
     }
 
     /**
-     * Appends a message to a group
+     * Appends a message to a group.
      *
      * @param string $groupHeader
      * @param string $text

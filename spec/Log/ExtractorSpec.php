@@ -12,18 +12,19 @@ class ExtractorSpec extends ObjectBehavior
     {
         $log = [
             'foo',
-            'feature: bar baz',
+            '[+] bar baz',
             'nope',
-            'feature: dummy feature',
-            'feat: lol',
+            '[+] dummy feature',
+            'add lol',
             'also nope',
-            'fix: some bugfix',
+            'fix some bugfix',
+            '[*] refactoring',
         ];
 
         $messageGroups = [
-            'Features' => ['feature', 'feat'],
-            'Bugfixes' => ['bugfix', 'fix'],
-            'Docs'     => ['docs'],
+            'Features'        => ['add', '[+]'],
+            'Bugfixes'        => ['[!]', 'fix'],
+            'Refactoring'     => ['[*]'],
         ];
 
         $result = [
@@ -34,6 +35,9 @@ class ExtractorSpec extends ObjectBehavior
             ],
             'Bugfixes' => [
                 'some bugfix',
+            ],
+            'Refactoring' => [
+                'refactoring',
             ],
         ];
 

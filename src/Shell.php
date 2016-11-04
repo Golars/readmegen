@@ -1,11 +1,12 @@
-<?php namespace ReadmeGen;
+<?php
+
+namespace ReadmeGen;
 
 /**
  * Shell command runner.
  */
 class Shell
 {
-
     /**
      * Returns the result of the executed command.
      *
@@ -17,5 +18,4 @@ class Shell
     {
         return shell_exec($command);
     }
-
 }

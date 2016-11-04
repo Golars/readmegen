@@ -1,22 +1,24 @@
 <?php
+
 namespace ReadmeGen\Output;
 
 use ReadmeGen\Output\Format\FormatInterface;
 
 /**
  * Output writer.
- * Class Writer
- * @package ReadmeGen\Output
+ * Class Writer.
  */
 class Writer
 {
     /**
      * Format specific writer.
+     *
      * @var FormatInterface
      */
     protected $formatter;
     /**
      * Output breakpoint.
+     *
      * @var string
      */
     protected $break;
@@ -28,15 +30,16 @@ class Writer
 
     /**
      * Writes the output to a file.
-     * @return boolean
+     *
+     * @return bool
      */
     public function write()
     {
-        $result   = false;
+        $result = false;
         $messages = $this->formatter->generate();
         if (count($messages)) {
-            $log    = implode("\n", $messages)
-                      . "\n";
+            $log = implode("\n", $messages)
+                      ."\n";
             $result = $this->appendLog($log, $this->formatter->getFileName());
         }
 
@@ -47,24 +50,24 @@ class Writer
      * @param string $log
      * @param string $fileName
      *
-     * @return boolean
+     * @return bool
      */
     public function appendLog($log, $fileName)
     {
         $originalContent = $this->getFileContent($fileName);
         if (!is_null($this->break)) {
-            $log              = $this->break . "\n" . $log;
+            $log = $this->break."\n".$log;
             $splitFileContent = preg_split("/^{$this->break}/m", $originalContent, 2);
             if (count($splitFileContent) === 2) {
                 $newContent = implode($log, $splitFileContent);
             } else {
-                $newContent = $log . $originalContent;
+                $newContent = $log.$originalContent;
             }
         } else {
-            $newContent = $log . $originalContent;
+            $newContent = $log.$originalContent;
         }
 
-        return (boolean)file_put_contents($fileName, $newContent);
+        return (bool) file_put_contents($fileName, $newContent);
     }
 
     /**

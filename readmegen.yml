@@ -6,11 +6,14 @@ output_file_name: "README.md"
 message_groups:
   Features:
     - "[+]"
+    - "add"
   Bugfixes:
     - "[!]"
+    - "fix"
   Hotfixes:
     - "[!!]"
   Deleted:
     - "[-]"
+    - "delete"
   Refactoring:
     - "[*]"

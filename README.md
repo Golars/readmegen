@@ -11,14 +11,14 @@ ReadmeGen is a PHP package that scans the VCS's log searching for messages with 
 ### Installation
 #### Global installation (recommended)
 ```
-composer global require fojuth/readmegen:@stable
+composer global require golars/readmegen
 ```
 
 You can read more about global installation in the [composer docs](https://getcomposer.org/doc/03-cli.md#global).
 
 #### Local installation
 ```
-composer require fojuth/readmegen:1.*
+composer require golars/readmegen
 ```
 
 #### Windows installation
@@ -55,7 +55,7 @@ readmegen --from a04cf99 --release 1.13.0
 ### Message format
 ReadmeGen will search for messages that start with a specific keyword. These keywords tell the script to which group the commit should be appended. The message groups can be overwritten.
 
-For example - the default configuration supports four types of commits: Features, Bugfixes, Documentation and Refactoring. The commit will be appended to a certain group only if it starts with a specific word. The default config allows two keywords for bugfixes: `bugfix` and `fix`. This means, that for a message to be appended to the Bugfix group it has to start with either `bugfix: blabla` or `Fix: foo bar` (notice the colon `:` sign - it has to be right after the keyword). The keywords are case insensitive.
+For example - the default configuration supports four types of commits: Features, Bugfixes, Documentation and Refactoring. The commit will be appended to a certain group only if it starts with a specific word. The default config allows two keywords for bugfixes: [!] and `fix`. This means, that for a message to be appended to the Bugfix group it has to start with either `[!] bla bla` or `fix foo bar`. The keywords are case insensitive.
 
 All commits that do not fit into any of the groups will be ignored (we don't want merges and stuff like that in the changelog).
 
@@ -87,15 +87,18 @@ break: "## Changelog"
 output_file_name: "README.md"
 message_groups:
   Features:
-    - feature
-    - feat
+    - "[+]"
+    - "add"
   Bugfixes:
-    - fix
-    - bugfix
-  Documentation:
-    - docs
+    - "[!]"
+    - "fix"
+  Hotfixes:
+    - "[!!]"
+  Deleted:
+    - "[-]"
+    - "delete"
   Refactoring:
-    - refactoring
+    - "[*]"
 ```
 
 Each of the `message_groups` key is the name of the group that will be put in the changelog. The values inside the group  are the keywords the commit must start with (followed by the colon `:` sign) to be appended to that group.
@@ -118,12 +121,24 @@ ReadmeGen will search for the `## Changelog` breakpoint by default. If the break
 Here are some example commit messages that will be grabbed by ReadmeGen (with the default config):
 ```
 feature: Added some cool stuff (#1234)
-fix: #4245, regarding client login bug
-docs: Updated the transaction section of the docs
-feat: Some more cool stuff
+fix #4245, regarding client login bug
+[-] Remove same ...
+[+] Some more cool stuff
 ```
 
 ## Changelog
+## 1.2.0
+*(2016-11-04)*
+
+#### Bugfixes
+* Multi message groups, test
+
+#### Refactoring
+* php-cs-fixer
+
+---
+
+
 ## 1.1.7
 *(2016-10-02)*
 
