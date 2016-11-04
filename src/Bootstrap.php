@@ -1,4 +1,6 @@
-<?php namespace ReadmeGen;
+<?php
+
+namespace ReadmeGen;
 
 use ReadmeGen\Config\Loader as ConfigLoader;
 use ReadmeGen\Input\Parser;
@@ -14,7 +16,7 @@ class Bootstrap
     {
         // Set up the input parser
         $inputParser = new Parser();
-        $inputParser->setInput(join(' ', $input));
+        $inputParser->setInput(implode(' ', $input));
 
         // Parse the input
         try {
@@ -44,10 +46,10 @@ class Bootstrap
 
         $config = $this->generator->getConfig();
 
-        $formatterClassName = '\ReadmeGen\Output\Format\\' . ucfirst($config['format']);
+        $formatterClassName = '\ReadmeGen\Output\Format\\'.ucfirst($config['format']);
 
         // Create the output formatter
-        $formatter = new $formatterClassName;
+        $formatter = new $formatterClassName();
 
         $formatter
             ->setRelease($options['release'])
@@ -74,6 +76,7 @@ class Bootstrap
 
     /**
      * Returns the parsed log.
+     *
      * @return mixed
      */
     public function getLog()
@@ -84,6 +87,7 @@ class Bootstrap
 
     /**
      * Returns the date of the latter commit (--to).
+     *
      * @return string
      */
     protected function getToDate()
@@ -103,7 +107,7 @@ class Bootstrap
     {
         $this->generator->getParser()
                         ->setArguments($options)
-                        ->setShellRunner(new Shell);
+                        ->setShellRunner(new Shell());
     }
 
     /**
@@ -126,5 +130,4 @@ class Bootstrap
 
         return null;
     }
-
 }

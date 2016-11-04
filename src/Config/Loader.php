@@ -1,4 +1,6 @@
-<?php namespace ReadmeGen\Config;
+<?php
+
+namespace ReadmeGen\Config;
 
 use Symfony\Component\Yaml\Yaml;
 
@@ -7,15 +9,15 @@ use Symfony\Component\Yaml\Yaml;
  */
 class Loader
 {
-
     /**
      * Returns the config as an array.
      *
-     * @param string $path         Path to the file.
-     * @param array  $sourceConfig Config array the result should be merged with.
+     * @param string $path         Path to the file
+     * @param array  $sourceConfig Config array the result should be merged with
      *
      * @return array
-     * @throws \Symfony\Component\Yaml\Exception\ParseException When a parse error occurs.
+     *
+     * @throws \Symfony\Component\Yaml\Exception\ParseException When a parse error occurs
      */
     public function get($path, array $sourceConfig = null)
     {
@@ -31,10 +33,11 @@ class Loader
     /**
      * Returns the file's contents.
      *
-     * @param string $path Path to file.
+     * @param string $path Path to file
      *
      * @return string
-     * @throws \InvalidArgumentException When the file does not exist.
+     *
+     * @throws \InvalidArgumentException When the file does not exist
      */
     protected function getFileContent($path)
     {
@@ -44,5 +47,4 @@ class Loader
 
         return file_get_contents($path);
     }
-
 }

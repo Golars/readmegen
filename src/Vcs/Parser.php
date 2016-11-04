@@ -1,4 +1,6 @@
-<?php namespace ReadmeGen\Vcs;
+<?php
+
+namespace ReadmeGen\Vcs;
 
 use ReadmeGen\Shell;
 use ReadmeGen\Vcs\Type\TypeInterface;
@@ -11,6 +13,7 @@ class Parser
 {
     /**
      * VCS-specific parser.
+     *
      * @var TypeInterface
      */
     protected $vcs;
@@ -22,6 +25,7 @@ class Parser
 
     /**
      * Returns the parsed log.
+     *
      * @return array
      */
     public function parse()
@@ -31,6 +35,7 @@ class Parser
 
     /**
      * Returns the VCS parser.
+     *
      * @return TypeInterface
      */
     public function getVcsParser()
@@ -82,6 +87,7 @@ class Parser
 
     /**
      * Returns the date of the latter (--to) commit, in the format YYYY-MM-DD.
+     *
      * @return string
      */
     public function getToDate()

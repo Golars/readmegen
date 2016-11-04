@@ -1,12 +1,14 @@
-<?php namespace ReadmeGen\Vcs\Type;
+<?php
+
+namespace ReadmeGen\Vcs\Type;
 
 use ReadmeGen\Shell;
 
 interface TypeInterface
 {
-
     /**
      * Parses the log.
+     *
      * @return array
      */
     public function parse();
@@ -47,6 +49,7 @@ interface TypeInterface
 
     /**
      * Returns all options.
+     *
      * @return mixed
      */
     public function getOptions();
@@ -71,14 +74,15 @@ interface TypeInterface
 
     /**
      * Return all arguments.
+     *
      * @return mixed
      */
     public function getArguments();
 
     /**
      * Returns the date of the latter (--to) commit, in the format YYYY-MM-DD.
+     *
      * @return string
      */
     public function getToDate();
-
 }

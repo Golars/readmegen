@@ -1,4 +1,6 @@
-<?php namespace ReadmeGen\Output\Format;
+<?php
+
+namespace ReadmeGen\Output\Format;
 
 use ReadmeGen\Vcs\Type\AbstractType as VCS;
 
@@ -6,30 +8,35 @@ class Md implements FormatInterface
 {
     /**
      * VCS log.
+     *
      * @var array
      */
     protected $log;
 
     /**
      * Issue tracker link pattern.
+     *
      * @var string
      */
     protected $pattern;
 
     /**
      * Output filename.
+     *
      * @var string
      */
     protected $fileName = 'README.md';
 
     /**
      * Release number (included in the output).
+     *
      * @var string
      */
     protected $release;
 
     /**
      * Date (included in the output).
+     *
      * @var \DateTime
      */
     protected $date;
@@ -63,7 +70,8 @@ class Md implements FormatInterface
     }
 
     /**
-     * Decorates the output (e.g. adds linkgs to the issue tracker)
+     * Decorates the output (e.g. adds linkgs to the issue tracker).
+     *
      * @return self
      */
     public function decorate()
@@ -77,6 +85,7 @@ class Md implements FormatInterface
 
     /**
      * Returns a write-ready log.
+     *
      * @return array
      */
     public function generate()
@@ -97,7 +106,7 @@ class Md implements FormatInterface
             foreach ($entries as &$line) {
                 $message = explode(VCS::MSG_SEPARATOR, $line);
 
-                $log[] = sprintf("* %s", trim($message[0]));
+                $log[] = sprintf('* %s', trim($message[0]));
 
                 // Include multi-line entries
                 if (true === isset($message[1])) {
@@ -112,6 +121,7 @@ class Md implements FormatInterface
 
     /**
      * Returns the output filename.
+     *
      * @return string
      */
     public function getFileName()
@@ -164,11 +174,10 @@ class Md implements FormatInterface
     /**
      * Injects issue tracker links into the log.
      *
-     * @param string $entry Log entry.
+     * @param string $entry Log entry
      */
     protected function injectLinks(&$entry)
     {
         $entry = preg_replace('/#(\d+)/', "[#\\1]({$this->pattern})", $entry);
     }
-
 }

@@ -1,9 +1,12 @@
-<?php namespace ReadmeGen\Vcs\Type;
+<?php
+
+namespace ReadmeGen\Vcs\Type;
 
 class Git extends AbstractType
 {
     /**
      * Parses the log.
+     *
      * @return array
      */
     public function parse()
@@ -18,7 +21,7 @@ class Git extends AbstractType
         $to = (true === isset($arguments['to'])) ? $arguments['to'] : 'HEAD';
 
         $fullDate = $this->runCommand(sprintf('git log -1 -s --format=%%ci %s', $to));
-        $date     = explode(' ', $fullDate);
+        $date = explode(' ', $fullDate);
 
         return $date[0];
     }
@@ -30,14 +33,15 @@ class Git extends AbstractType
 
     /**
      * Returns the compiled VCS log command.
+     *
      * @return string
      */
     public function getCommand()
     {
-        $options   = $this->getOptions();
+        $options = $this->getOptions();
         $arguments = $this->getArguments();
 
-        $to   = null;
+        $to = null;
         $from = $arguments['from'];
 
         if (true === isset($arguments['to'])) {
@@ -45,18 +49,19 @@ class Git extends AbstractType
         }
 
         array_walk($options, function (&$option) {
-            $option = '--' . $option;
+            $option = '--'.$option;
         });
 
         array_walk($arguments, function (&$value, $argument) {
-            $value = '--' . $argument . '=' . $value;
+            $value = '--'.$argument.'='.$value;
         });
 
-        return trim(sprintf('%s %s %s', $this->getBaseCommand(), $this->getRange($from, $to), join(' ', $options)));
+        return trim(sprintf('%s %s %s', $this->getBaseCommand(), $this->getRange($from, $to), implode(' ', $options)));
     }
 
     /**
      * Returns the base VCS log command.
+     *
      * @return string
      */
     protected function getBaseCommand()
@@ -66,8 +71,8 @@ class Git extends AbstractType
 
     protected function getRange($from, $to = null)
     {
-        $range = $from . '..';
+        $range = $from.'..';
 
-        return $range . (($to) ?: 'HEAD');
+        return $range.(($to) ?: 'HEAD');
     }
 }
